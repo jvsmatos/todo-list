@@ -52,7 +52,7 @@ export function App() {
 
   return (
     <main className="bg-zinc-800 h-screen flex justify-center">
-        <Card className="mx-10 my-auto w-full">
+        <Card className="mx-10 my-auto w-full max-w-3xl">
           <CardHeader>
             <CardTitle className="text-center text-2xl font-bold">
               To-Do List
