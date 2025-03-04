@@ -51,7 +51,7 @@ To run this project locally, follow these steps:
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/to-do-list-app.git
+git clone https://github.com/jvsmatos/to-do-list-app.git
 ```
 ### 2. Clone the repository
 ```bash
