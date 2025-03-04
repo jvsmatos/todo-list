@@ -1,4 +1,4 @@
-import {Card, CardContent, CardDescription, CardHeader, CardTitle} from './components/ui/card.jsx';
+import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from './components/ui/card.jsx';
 import { Label } from './components/ui/label.jsx';
 import { Input } from './components/ui/input.jsx';
 import { Checkbox } from './components/ui/checkbox.jsx';
@@ -6,11 +6,14 @@ import { Button } from './components/ui/button.jsx';
 import { Separator } from './components/ui/separator.jsx';
 import { Trash2, CirclePlus } from 'lucide-react';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export function App() {
   const [newTask, setNewTask] = useState('');
-  const [taskList, setTaskList] = useState([]);
+  const [taskList, setTaskList] = useState(() => {
+    const localStoredTasks = localStorage.getItem('storedTaskList');
+    return localStoredTasks ? JSON.parse(localStoredTasks) : [];
+  });
 
   function handleAddTask(newTask){
     if(newTask === '') return;
@@ -42,6 +45,10 @@ export function App() {
       prevList.filter(task => task.id !== id)
     );
   }
+
+  useEffect(() => {
+    localStorage.setItem('storedTaskList', JSON.stringify(taskList));
+  }, [taskList]);
 
   return (
     <main className="bg-zinc-800 h-screen flex justify-center">
@@ -97,7 +104,7 @@ export function App() {
               )}
             </div>
           </CardContent>
-
+          <CardFooter className="text-gray-600 text-xs">v1.0 - add, list, delete tasks / check-uncheck tasks / localstorage for temporary usage</CardFooter>
         </Card>
     </main>
   )
