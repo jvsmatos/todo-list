@@ -1,10 +1,13 @@
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from './components/ui/card.jsx';
-import { Label } from './components/ui/label.jsx';
 import { Input } from './components/ui/input.jsx';
-import { Checkbox } from './components/ui/checkbox.jsx';
 import { Button } from './components/ui/button.jsx';
 import { Separator } from './components/ui/separator.jsx';
-import { Trash2, CirclePlus } from 'lucide-react';
+import { CirclePlus } from 'lucide-react';
+import { Toaster, toast } from 'sonner';
+import Tasks from './components/Tasks.jsx';
+import { DndContext, closestCenter } from '@dnd-kit/core';
+import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+
 
 import { useState, useEffect } from 'react';
 
@@ -17,6 +20,8 @@ export function App() {
 
   function handleAddTask(newTask){
     if(newTask === '') return;
+
+    toast.success('New task added');
 
     setTaskList(prevList => [
       {
@@ -33,7 +38,7 @@ export function App() {
     setNewTask(event.target.value);
   }
 
-  function handleClick(id){
+  function handleClick(id, ){
     setTaskList(prevList => 
       prevList.map(task => task.id === id ? {...task, checked: !task.checked} : task
       )
@@ -44,6 +49,8 @@ export function App() {
     setTaskList(prevList => 
       prevList.filter(task => task.id !== id)
     );
+
+    toast.success('Task deleted');
   }
 
   function handleKeyDown(event) {
@@ -52,13 +59,26 @@ export function App() {
     }
   }
 
+  function handleDragEnd(event) {
+    const { active, over } = event;
+  
+    if (active.id !== over.id) {
+      setTaskList((items) => {
+        const oldIndex = items.findIndex(item => item.id === active.id);
+        const newIndex = items.findIndex(item => item.id === over.id);
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
+  } 
+
   useEffect(() => {
     localStorage.setItem('storedTaskList', JSON.stringify(taskList));
   }, [taskList]);
 
   return (
-    <main className="bg-zinc-800 h-screen flex justify-center">
-        <Card className="mx-10 my-auto w-full max-w-3xl">
+    <main className="mx-8 my-8 flex justify-center">
+        <Toaster />
+        <Card className="w-full max-w-3xl">
           <CardHeader>
             <CardTitle className="text-center text-2xl font-bold">
               To-Do List
@@ -88,32 +108,30 @@ export function App() {
                 <p className='text-center'>No tasks found</p>
               ) : (
               <ul>
+                <DndContext 
+                  collisionDetection={closestCenter}
+                  onDragEnd={handleDragEnd} >
+                <SortableContext
+                  items={taskList}
+                  strategy={verticalListSortingStrategy}>
                 {taskList.map(task => 
-                <li key={task.id} className='border-b-1 py-2 border-gray-800 flex'>
-                  <div className='flex w-full gap-2 *:cursor-pointer'>
-                    <Checkbox 
-                    id={`task-${task.id}`} 
-                    onClick={() => handleClick(task.id)} 
-                    checked={task.checked} />
-                    <Label 
-                    htmlFor={`task-${task.id}`} 
-                    className={task.checked ? 'line-through text-gray-500' : ''}>
-                    {task.desc}
-                    </Label>
-                  </div>
-                  <Trash2 
-                  onClick={() => handleDelete(task.id)} 
-                  className='cursor-pointer fill-transparent hover:fill-red-600 transition-colors delay-100 duration-300 ease-in-out' 
-                  size={18}  />
-                </li>
+                  <Tasks
+                    key={task.id}
+                    id={task.id}
+                    task={task}
+                    handleClick={handleClick}
+                    handleDelete={handleDelete}
+                  />
                 )}
+                </SortableContext>
+                </DndContext>
               </ul>
               )}
             </div>
           </CardContent>
           <CardFooter className="text-gray-600 text-xs flex flex-col items-start">
             <p>v1.0 - add, list, delete tasks / check-uncheck tasks / localstorage for temporary usage;</p>
-            <p>v1.1 - submit task using 'Enter'</p> 
+            <p>v1.1 - submit task using 'Enter' / toast msgs (add/del) / drag-and-drop support to reorder items;</p>
           </CardFooter>
         </Card>
     </main>
