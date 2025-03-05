@@ -46,6 +46,12 @@ export function App() {
     );
   }
 
+  function handleKeyDown(event) {
+    if (event.key === "Enter") {
+      handleAddTask(newTask);
+    }
+  }
+
   useEffect(() => {
     localStorage.setItem('storedTaskList', JSON.stringify(taskList));
   }, [taskList]);
@@ -68,7 +74,8 @@ export function App() {
               type="text" 
               onChange={handleNewTask} 
               value={newTask} 
-              placeholder="Insert your new task here" />
+              placeholder="Insert your new task here" 
+              onKeyDown={handleKeyDown}/>
               <Button onClick={() => handleAddTask(newTask)}>
                 <CirclePlus /> Add
               </Button>
@@ -104,7 +111,10 @@ export function App() {
               )}
             </div>
           </CardContent>
-          <CardFooter className="text-gray-600 text-xs">v1.0 - add, list, delete tasks / check-uncheck tasks / localstorage for temporary usage</CardFooter>
+          <CardFooter className="text-gray-600 text-xs flex flex-col items-start">
+            <p>v1.0 - add, list, delete tasks / check-uncheck tasks / localstorage for temporary usage;</p>
+            <p>v1.1 - submit task using 'Enter'</p> 
+          </CardFooter>
         </Card>
     </main>
   )
