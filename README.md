@@ -17,6 +17,8 @@ The To-Do List app is a task management tool designed to help users organize the
 - **LocalStorage** – To save tasks even after reloading the page.
 - **ShadCN & Tailwind CSS** – To accelerate the styling process while maintaining a beautiful and responsive design.
 - **Lucide-react Icons** – For interactive icons that improve usability.
+- **DndKit** – For drag-and-drop functionality, allowing users to reorder tasks in the to-do list.
+- **Sonner (Toast)** – For displaying toast notifications that provide feedback for actions like adding and deleting tasks.
 
 ---
 
@@ -27,6 +29,8 @@ The To-Do List app is a task management tool designed to help users organize the
 - **Delete Tasks** – Remove tasks from the list.
 - **Persistent Data** – Tasks are saved in **localStorage**, so they persist even after a page refresh.
 - **Responsive Design** – The UI adapts to both mobile and desktop screens.
+- **Drag-and-Drop Reordering – Users can reorder tasks by dragging and dropping them, improving task management flexibility.
+- **Toast Notifications – Users receive visual feedback for actions like adding and deleting tasks, making the interface more interactive and user-friendly.
 
 ---
 
@@ -36,9 +40,6 @@ This is just the beginning! Some possible future features include:
 
 - **Task Management Panel** – Organize tasks more efficiently.
 - **Task Grouping** – Group tasks by project or category.
-- **Drag-and-Drop** – Allow users to prioritize tasks with drag-and-drop functionality.
-- **API Integration** – Sync tasks across devices and with cloud storage.
-- **Customizable Themes** – Let users personalize the appearance of their app.
 
 ![Captura de tela 2025-03-04 210157](https://github.com/user-attachments/assets/25aba5f7-8f6e-40c6-8ace-4aeada8234b1)
 
